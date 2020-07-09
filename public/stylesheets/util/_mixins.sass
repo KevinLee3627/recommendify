@@ -1,0 +1,51 @@
+@use 'vars'
+
+//GLOBAL
+@mixin button-reset
+	display: inline-block
+	border: none
+	margin: 0
+	text-decoration: none
+	cursor: pointer
+	transition: background 250ms ease-in-out
+	-webkit-appearance: none
+	-moz-appearance: none
+
+@mixin wrapper($bg_color)
+	height: 100%
+	display: flex
+	justify-content: center
+	align-items: center
+	background: $bg_color
+
+//MEDIA QUERIES
+@mixin sm
+	@media (max-width: #{vars.$screen-sm-min})
+		@content
+
+@mixin md
+	@media (min-width: #{vars.$screen-sm-min}) and (max-width: #{vars.$screen-md-min})
+		@content
+
+@mixin lg
+	@media (min-width: #{vars.$screen-md-min})
+		@content
+
+//LANDING
+@mixin landing-p
+	color: vars.$site-text-color
+	text-align: center
+	font: 1.2em vars.$body-font-stack
+
+@mixin search-result
+	color: vars.$site-text-color
+	font-size: 1em
+	text-align: left
+	padding: vars.$search-result-padding
+	height: vars.$search-result-height
+	width: 100%
+	margin: 0 auto
+	background: 0
+	display: grid
+	grid-template-rows: 1fr 1fr 1fr
+	grid-template-columns: vars.$search-result-img-width 1fr

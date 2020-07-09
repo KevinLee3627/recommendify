@@ -1,0 +1,113 @@
+@use 'util/vars'
+@use 'util/mixins'
+
+.main-wrapper
+	@include mixins.wrapper(vars.$site-body-green)
+	height: auto
+	flex-direction: column
+	font: 1em vars.$body-font-stack
+	color: vars.$site-text-color
+
+	.sort-wrapper
+		height: 10%
+		width: 100%
+
+		.sort-container
+			height: auto
+			display: flex
+			flex-direction: column
+			position: relative
+			z-index: 500
+			background: vars.$bg-search-result-hover
+
+			.sort-container__heading
+				height: 35%
+				display: flex
+				align-items: center
+				padding: 0 10px
+
+				p
+					font-size: 2em
+					flex-grow: 1
+
+				img
+					height: 64px
+					filter: invert(1)
+
+			.sort-container__body
+				display: flex
+				justify-content: space-around
+				position: relative
+				padding-bottom: 15px
+
+				.sort-category
+					height: 100%
+
+					p
+						font-size: 1.2em
+					label
+						display: block
+					input
+						display: inline-block
+
+
+	.results-container
+		flex-grow: 1
+		width: 100%
+
+		.search-results-container
+			width: 95%
+			margin: 0 auto
+			list-style: none
+			overflow-y: auto
+			@include mixins.md
+				width: 70%
+			@include mixins.lg
+				width: 60%
+
+			.search-result
+				@include mixins.button-reset
+				@include mixins.search-result
+				padding-left: 0
+				grid-template-columns: vars.$num-recs-width vars.$search-result-img-width 1fr
+
+				&:hover
+					background-color: vars.$bg-search-result-hover
+
+				.num-recs
+					grid-row: 2 / 3
+					grid-column: 1 / 2
+					text-align: center
+
+				.result-img
+					grid-row: 1 / end
+					grid-column: 2 / 3
+					width: 64px
+					height: 64px
+
+				p
+					padding-left: 5px
+					grid-column: 3 / 4
+					white-space: nowrap
+					overflow: hidden
+					text-overflow: ellipsis
+					width: 100%
+
+			.search-result-spacer
+				height: 0
+				width: 90%
+				margin: 5px auto
+				border: 1px solid white
+
+			.results-heading-container
+				padding: vars.$search-result-padding
+				display: grid
+				grid-template-columns: vars.$num-recs-width 1fr
+
+				// span
+					// text-align: center
+				.num-recs-heading
+					grid-column: 1 / 2
+				.results-heading
+					grid-column: 2 / 3
+					text-align: center

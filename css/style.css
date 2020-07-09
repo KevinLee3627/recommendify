@@ -1,0 +1,9 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+    margin-padding: 0;
+  color: red; }
+
+body {
+  padding: 50px;
+  font: 14px; }

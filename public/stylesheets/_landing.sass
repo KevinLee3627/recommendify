@@ -1,0 +1,125 @@
+@use 'util/vars'
+@use 'util/mixins'
+
+.landing-wrapper
+	@include mixins.wrapper(vars.$site-body-green)
+
+.landing-container
+	height: 75%
+	width: 100%
+	margin: 0 auto
+	display: flex
+	flex-direction: column
+	position: relative
+
+	@include mixins.md
+		border: 1px solid orange
+	@include mixins.lg
+		width: 60%
+
+	.title
+		color: vars.$site-text-color
+		font: 3em vars.$title-font-stack
+		font-weight: 500
+		text-align: center
+
+		@include mixins.md
+			font-size: 3em
+		@include mixins.lg
+			font-size: 4em
+	.rec-text
+		@include mixins.landing-p
+		margin-top: 30px
+
+	.rec-something
+		@include mixins.landing-p
+
+		a, a:visited
+			text-decoration: none
+			margin: 0 5px
+			color: #222
+			opacity: 0.6
+
+		a.rec-flag
+			color: vars.$site-text-color
+			opacity: 1
+
+
+	.rec-input
+		height: 2em
+		width: 95%
+		border: 0
+		margin: 5px auto 0 auto
+		@include mixins.md
+			width: 70%
+		@include mixins.lg
+			width: 60%
+		&::placeholder
+			font-size: 1.5em
+
+	.search-results-container
+		width: 95%
+		margin: 0 auto
+		list-style: none
+		overflow-y: auto
+		@include mixins.md
+			width: 70%
+		@include mixins.lg
+			width: 60%
+
+	.search-result
+		@include mixins.button-reset
+		@include mixins.search-result
+
+		&:hover
+			background-color: vars.$bg-search-result-hover
+
+		.result-img
+			grid-row: 1 / end
+			grid-column: 1 / 2
+			width: 64px
+			height: 64px
+
+		p
+			padding-left: 5px
+			grid-column: 2 / 3
+			white-space: nowrap
+			overflow: hidden
+			text-overflow: ellipsis
+			width: 100%
+
+	.search-result-spacer
+		height: 0
+		width: 90%
+		margin: 5px auto
+		border: 1px solid white
+
+	.search-result-chosen
+		width: auto
+		background: transparent
+		&:hover
+			cursor: auto
+
+	.landing-thank-you
+		@include mixins.landing-p
+		display: none
+
+	.landing-explore-container
+		width: 100%
+		position: absolute
+		bottom: 10%
+		display: none
+
+		.go-explore
+			@include mixins.landing-p
+
+		.landing-down-arrow
+			height: 64px
+			display: block
+			margin: 0 auto
+			filter: invert(1)
+			border-radius: 100%
+			transition: background 200ms ease-in-out
+
+			&:hover
+				background: invert(vars.$bg-search-result-hover)

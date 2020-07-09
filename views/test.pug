@@ -1,0 +1,51 @@
+doctype html
+html
+head
+		title RECOMMENDR
+		link(href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet")
+		link(rel='stylesheet', href='/stylesheets/style.css')
+body
+	div.main-wrapper
+		div.sort-wrapper
+			div.sort-container
+				div.sort-container__heading
+					p Sort by...
+					img.slide-arrow(src='/images/down_arrow.svg')
+				div.sort-container__body
+					div.sort-category.sort-type
+						p Type
+						label
+							input(type='radio' name='sort-radio' value='Song')
+							|  Song
+						label
+							input(type='radio' name='sort-radio' value='Album')
+							|  Album
+						label
+							input(type='radio' name='sort-radio' value='Artist')
+							|  Artist
+					div.sort-category.sort-date
+						p Date
+						label
+							input(type='radio' name='sort-radio' value='Last day')
+							|  Last day
+						label
+							input(type='radio' name='sort-radio' value='Last week')
+							|  Last week						
+						label
+							input(type='radio' name='sort-radio' value='Last month')
+							|  Last month						
+						label
+							input(type='radio' name='sort-radio' value='Last year')
+							|  Last year										
+						label
+							input(type='radio' name='sort-radio' value='All time')
+							|  All time			
+					div.sort-category.sort-misc
+						p Shuffle
+		div.results-container 
+			ul.search-results-container
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js')
+	script(src='/scripts/jquery-3.5.1.min.js')
+	script(src='/scripts/index.js')
+	script(src='/scripts/landing.js')
+	script(src='/scripts/main.js')
