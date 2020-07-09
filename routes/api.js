@@ -80,9 +80,9 @@ router.get('/sort', (req, res, next) => {
 //2. if going this route, figure out how to transfer dates from recevents
 //   to the rec documents w/ corresponding spotify ids
 //USE GITHUB BEFORE TAKING THIS STEP!!!
-Recommendation.find({
-
-})
+	RecommendationEvent.count({
+		
+	})
 
 	// Recommendation.findRandom().limit(10).exec(function(err, recs) {
 	// 	if (err) console.error(err)
