@@ -79,31 +79,8 @@ router.get('/sort', (req, res, next) => {
 	else if (req.query.date === 'month') offset_ms = 1000*60*60*24*30
 	else if (req.query.date === 'year') offset_ms = 1000*60*60*24*365
 	else if (req.query.date === 'all') offset_ms = new Date(1970, 0, 1)
-	else console.log('Undefined time period!');
-	// switch (req.query.date) {
-	// 	case 'day':
-	// 		offset_ms = 1000*60*60*24;
-	// 		break;
-	// 	case 'week':
-	// 		offset_ms = 1000*60*60*24*7;
-	// 		break;
-	// 	case 'month':
-	// 		offset_ms = 1000*60*60*24*7*30;
-	// 		break;
-	// 	case 'year':
-	// 		offset_ms = 1000*60*60*24*7*365;
-	// 		break;
-	// 	case 'all':
-	// 		offset_ms = new Date(1970, 0, 1);
-	// 		break;
-	// 	default:
-	// 		console.log('Undefined time period returned.')
-	// 		break;
-	// }
-	if (req.query.date === 'all') {
-		req.query.date = new Date(1970, 0, 1)
-	}
-
+	else console.log('Undefined time period!')
+	
 	RecommendationEvent
 		.aggregate([
 			{ $match: {
