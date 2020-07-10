@@ -59,6 +59,7 @@ router.post('/recommend', (req, res, next) => {
 		RecommendationEvent.create({
 			spotify_id: rec_data.id,
 			obj_name: rec_data.name,
+			obj_type: rec_data.type,
 			date_recommended: new Date()
 		}, function(err, rec_event_instance) {
 				if(err) console.error(err);
@@ -72,17 +73,65 @@ router.get('/sort', (req, res, next) => {
 	console.log(req.query.type);
 	console.log(req.query.date);
 
-//How to sort recs with most recs by type/date?
-//1. Sort rec events by spotify id with most recs in last (x) days
-//2. Find object with the spotify id
-//or... restructure the Rec model and delete the RecEvent model entirely
-//1. add dates_recommended to Rec model, should be array with dates
-//2. if going this route, figure out how to transfer dates from recevents
-//   to the rec documents w/ corresponding spotify ids
-//USE GITHUB BEFORE TAKING THIS STEP!!!
-	RecommendationEvent.count({
-		
-	})
+	let offset_ms = 0;
+	if (req.query.date === 'day') offset_ms = 1000*60*60*24
+	else if (req.query.date === 'week') offset_ms = 1000*60*60*24*7
+	else if (req.query.date === 'month') offset_ms = 1000*60*60*24*30
+	else if (req.query.date === 'year') offset_ms = 1000*60*60*24*365
+	else if (req.query.date === 'all') offset_ms = new Date(1970, 0, 1)
+	else console.log('Undefined time period!');
+	// switch (req.query.date) {
+	// 	case 'day':
+	// 		offset_ms = 1000*60*60*24;
+	// 		break;
+	// 	case 'week':
+	// 		offset_ms = 1000*60*60*24*7;
+	// 		break;
+	// 	case 'month':
+	// 		offset_ms = 1000*60*60*24*7*30;
+	// 		break;
+	// 	case 'year':
+	// 		offset_ms = 1000*60*60*24*7*365;
+	// 		break;
+	// 	case 'all':
+	// 		offset_ms = new Date(1970, 0, 1);
+	// 		break;
+	// 	default:
+	// 		console.log('Undefined time period returned.')
+	// 		break;
+	// }
+	if (req.query.date === 'all') {
+		req.query.date = new Date(1970, 0, 1)
+	}
+
+	RecommendationEvent
+		.aggregate([
+			{ $match: {
+					"date_recommended": {	$gte: new Date(Date.now() - offset_ms)	},
+					"obj_type": req.query.type
+				}
+			},
+			{ $group: {
+					"_id": { "spotify_id": "$spotify_id" },
+					"count": { $sum: 1 }
+				}
+			},
+			{ $sort: { "count": -1 } }
+		])
+		.limit(10)
+		.exec(function(err, event_data) {
+			if (err) return console.error(err)
+
+			let spotify_ids = event_data.map(event => event._id.spotify_id)
+
+			Recommendation
+			.find({ 'spotify_id': { $in: spotify_ids} })
+			.sort({'times_recommended': -1})
+			.exec(function(err, recs) {
+				console.log(event_data);
+				res.json(recs)
+			})
+		})
 
 	// Recommendation.findRandom().limit(10).exec(function(err, recs) {
 	// 	if (err) console.error(err)
@@ -90,5 +139,7 @@ router.get('/sort', (req, res, next) => {
 	// 	res.json(recs)
 	// })
 })
+
+
 
 module.exports = router;

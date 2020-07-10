@@ -27,11 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*------ ROUTERS ------*/
 
 let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
 let apiRouter = require('./routes/api');
 let testRouter = require('./routes/test')
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/test', testRouter);
 
