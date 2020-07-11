@@ -7,6 +7,14 @@ const mongoose_random = require('mongoose-random');
 const RecommendationEvent = require('../models/RecommendationEvent.js')
 // console.log(mongoose.connection.readyState);
 
+/*
+███████ ███████  █████  ██████   ██████ ██   ██
+██      ██      ██   ██ ██   ██ ██      ██   ██
+███████ █████   ███████ ██████  ██      ███████
+     ██ ██      ██   ██ ██   ██ ██      ██   ██
+███████ ███████ ██   ██ ██   ██  ██████ ██   ██
+*/
+
 router.post('/search', function(req, res, next) {
   const spotify_base = 'https://api.spotify.com/v1/search/';
   let data = req.body.data;
@@ -28,18 +36,23 @@ router.post('/search', function(req, res, next) {
   })
 });
 
+/*
+██████  ███████  ██████  ██████  ███    ███ ███    ███ ███████ ███    ██ ██████
+██   ██ ██      ██      ██    ██ ████  ████ ████  ████ ██      ████   ██ ██   ██
+██████  █████   ██      ██    ██ ██ ████ ██ ██ ████ ██ █████   ██ ██  ██ ██   ██
+██   ██ ██      ██      ██    ██ ██  ██  ██ ██  ██  ██ ██      ██  ██ ██ ██   ██
+██   ██ ███████  ██████  ██████  ██      ██ ██      ██ ███████ ██   ████ ██████
+*/
 
 router.post('/recommend', (req, res, next) => {
-	// console.log(req.body);
 	let rec_data = req.body.data;
 	//first, look to see if a rec exists in db (use spotify_id) before creating a new one
 		//if rec exists, increment times_recommended by 1 and save the document.
 		//if not, create a new rec and save it to the database.
+		//always create a recommendationevent
 	Recommendation.findOne({spotify_id: rec_data.id}, function(err, rec) {
 		if (err) return console.error(err);
-		//IF Recommendation HAS BEEN CREATED FOR SPOTIFY OBJECT, INCREMENT times_recommended BY 1
-		//OTHERWISE, CREATE NEW Recommendation DOCUMENT
-		//FINALLY, ALWAYS CREATE A NEW RecommendationEvent
+
 		if (rec != null) {
 			rec.times_recommended += 1;
 			rec.save(function(err) {
@@ -69,6 +82,14 @@ router.post('/recommend', (req, res, next) => {
 
 })
 
+/*
+███████  ██████  ██████  ████████
+██      ██    ██ ██   ██    ██
+███████ ██    ██ ██████     ██
+     ██ ██    ██ ██   ██    ██
+███████  ██████  ██   ██    ██
+*/
+
 router.get('/sort', (req, res, next) => {
 	console.log(req.query.type);
 	console.log(req.query.date);
@@ -78,9 +99,9 @@ router.get('/sort', (req, res, next) => {
 	else if (req.query.date === 'week') offset_ms = 1000*60*60*24*7
 	else if (req.query.date === 'month') offset_ms = 1000*60*60*24*30
 	else if (req.query.date === 'year') offset_ms = 1000*60*60*24*365
-	else if (req.query.date === 'all') offset_ms = new Date(1970, 0, 1)
+	else if (req.query.date === 'all') offset_ms = new Date(1970, 0, 1).getTime()
 	else console.log('Undefined time period!')
-	
+
 	RecommendationEvent
 		.aggregate([
 			{ $match: {
@@ -110,13 +131,14 @@ router.get('/sort', (req, res, next) => {
 			})
 		})
 
-	// Recommendation.findRandom().limit(10).exec(function(err, recs) {
-	// 	if (err) console.error(err)
-	//
-	// 	res.json(recs)
-	// })
+
 })
 
-
+router.get('/shuffle', (req, res, next) => {
+	Recommendation.findRandom({obj_type: req.query.type}).limit(10).exec(function(err, recs) {
+		if (err) console.error(err)
+		res.json(recs)
+	})
+})
 
 module.exports = router;

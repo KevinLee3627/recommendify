@@ -94,11 +94,13 @@
 		margin: 5px auto
 		border: 1px solid white
 
-	.search-result-chosen
-		width: auto
-		background: transparent
-		&:hover
-			cursor: auto
+	.chosen-container
+
+		.search-result-chosen
+			width: auto
+			background: transparent
+			&:hover
+				cursor: auto
 
 	.landing-thank-you
 		@include mixins.landing-p
@@ -116,9 +118,10 @@
 		.landing-down-arrow
 			height: 64px
 			display: block
-			margin: 0 auto
+			margin: 15px auto
 			filter: invert(1)
 			border-radius: 100%
+			border: 2px solid black
 			transition: background 200ms ease-in-out
 
 			&:hover

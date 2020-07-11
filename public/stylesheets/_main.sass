@@ -43,8 +43,12 @@
 				.sort-category
 					height: 100%
 
-					p
+					.shuffle-button
+						@include mixins.button-reset
 						font-size: 1.2em
+						img
+							height: 32px
+							padding: 5px
 					label
 						display: block
 					input
