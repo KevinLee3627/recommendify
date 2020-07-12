@@ -20,11 +20,12 @@ $('.rec-something a').click((e) => {
 })
 
 $('.rec-input').keyup( (e) => {
-	console.log(e.which);
+	$('.skip-rec-container').fadeOut(400);
   if (e.which === 13) {
     let query_text = encodeURI(e.target.value);
     let type = $('.rec-flag')[0].attributes.getNamedItem('data-search-type').value;
-    const limit = 40 //figure this out later
+		console.log(type);
+    const limit = 25
     searchForItem(query_text, type, limit)
   }
 })
@@ -39,7 +40,9 @@ function searchForItem(query, type, limit) {
   axios.post('/api/search', {
       data: data
   }).then( res => {
-		displaySearchResults(res.data.tracks.items)
+		for (type in res.data) {
+			displaySearchResults(res.data[type].items)
+		}
   }).catch( err => {
     console.log(err);
   })
@@ -57,7 +60,7 @@ $('.search-results-container').on('click', '.search-result', function(e) {
   let elem = $(this);
   let chosen_result = $(elem[0]);
 	let fade_speed = 300;
-	$('.rec-text, .rec-something, .rec-input, .search-results-container').fadeOut(fade_speed);
+	$('.rec-container, .search-results-container').fadeOut(fade_speed);
 	chosen_result.fadeOut(fade_speed);
 	chosen_result.delay(fade_speed).queue('fx', () => {
 		$('.landing-container').append(`<div class='chosen-container'></div>`);
@@ -66,10 +69,16 @@ $('.search-results-container').on('click', '.search-result', function(e) {
 		chosen_result.after(`<p class='landing-thank-you'>Thank you for sharing!</p>`).fadeIn(400);
 		$('.landing-explore-container, .landing-thank-you').fadeIn(fade_speed);
 		chosen_result.dequeue();
-		$('.rec-text, .rec-something, .rec-input, .landing-container > .search-results-container').remove();
+		$('.rec-container, .landing-container > .search-results-container').remove();
 	})
-	console.log(chosen_result.data());
+	// console.log(chosen_result.data());
 	axios.post('/api/recommend', {
 		data: chosen_result.data()
 	}).catch( err => console.log(err))
 })
+
+
+/*
+
+█████ █████ █████ █████ █████ █████ █████
+*/

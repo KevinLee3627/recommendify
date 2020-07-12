@@ -1,20 +1,20 @@
-$('.landing-down-arrow').on('click', (e) => {
+$('.main-wrapper').hide();
+$('.landing-down-arrow, .skip-down-arrow').on('click', (e) => {
 	//1. Show 'main' wrapper
 		//a. this includes sorting options
-	$('.landing-wrapper')
-		.slideUp(600)
-		.fadeOut({
-		duration: 600,
-		queue: false
-	}).queue('fx', () => {
-		// $('.landing-wrapper').remove();
+	$('.sort-container__body').slideUp(0).queue('fx', function(next) {
+		$('.landing-wrapper').slideUp(600).fadeOut({duration: 600, queue: true})
+		next();
+	}).queue('fx', function(next) {
+		$('.main-wrapper').show();
+		$('.search-results-container').show();
+		$('.search-results-container').off('click');
+		$('input[value="track"], input[value="week"]').prop('checked', true)
+		getSortResults('/api/sort?type=track&date=week');
+		next();
 	})
-	$('.main-wrapper').show();
-	$('.search-results-container').show();
-	$('.search-results-container').off('click');
-	//Makes sure default results are songs in the last week
-	$('input[value="track"], input[value="week"]').prop('checked', true)
-	getSortResults('/api/sort?type=track&date=week');
+
+
 })
 
 $('.slide-arrow').on('click', e => {

@@ -8,8 +8,8 @@
 	height: 75%
 	width: 100%
 	margin: 0 auto
-	display: flex
-	flex-direction: column
+	display: grid
+	grid-template-rows: 5em 1fr 2fr
 	position: relative
 
 	@include mixins.md
@@ -27,41 +27,44 @@
 			font-size: 3em
 		@include mixins.lg
 			font-size: 4em
-	.rec-text
-		@include mixins.landing-p
-		margin-top: 30px
 
-	.rec-something
-		@include mixins.landing-p
+	.rec-container
+		.rec-text
+			@include mixins.landing-p
+			margin-top: 30px
 
-		a, a:visited
-			text-decoration: none
-			margin: 0 5px
-			color: #222
-			opacity: 0.6
+		.rec-something
+			@include mixins.landing-p
+			a, a:visited
+				text-decoration: none
+				margin: 0 5px
+				color: #222
+				opacity: 0.6
 
-		a.rec-flag
-			color: vars.$site-text-color
-			opacity: 1
+			a.rec-flag
+				color: vars.$site-text-color
+				opacity: 1
 
 
-	.rec-input
-		height: 2em
-		width: 95%
-		border: 0
-		margin: 5px auto 0 auto
-		@include mixins.md
-			width: 70%
-		@include mixins.lg
-			width: 60%
-		&::placeholder
-			font-size: 1.5em
+		.rec-input
+			height: 2em
+			width: 95%
+			border: 0
+			margin: 5px auto 0 auto
+			display: block
+			@include mixins.md
+				width: 70%
+			@include mixins.lg
+				width: 60%
+			&::placeholder
+				font-size: 1.5em
 
 	.search-results-container
 		width: 95%
 		margin: 0 auto
 		list-style: none
 		overflow-y: auto
+		align-self: start
 		@include mixins.md
 			width: 70%
 		@include mixins.lg
@@ -95,6 +98,7 @@
 		border: 1px solid white
 
 	.chosen-container
+		grid-row: 2 / 3
 
 		.search-result-chosen
 			width: auto
@@ -108,21 +112,23 @@
 
 	.landing-explore-container
 		width: 100%
-		position: absolute
-		bottom: 10%
+		// position: absolute
+		// bottom: 10%
 		display: none
+		align-self: start
+		grid-row: 3 / 4
 
 		.go-explore
 			@include mixins.landing-p
 
 		.landing-down-arrow
-			height: 64px
-			display: block
-			margin: 15px auto
-			filter: invert(1)
-			border-radius: 100%
-			border: 2px solid black
-			transition: background 200ms ease-in-out
+			@include mixins.down-arrow
 
 			&:hover
 				background: invert(vars.$bg-search-result-hover)
+
+	.skip-rec-container
+		p
+			@include mixins.landing-p
+		.skip-down-arrow
+			@include mixins.down-arrow

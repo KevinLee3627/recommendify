@@ -33,7 +33,7 @@ function showTrackSearchResults(track, i, results) {
   let track_name = track.name;
   let artists = track.artists.map(artist => artist.name).join(', ');
   let album = `${track.album.name} (${track.album.release_date.slice(0,4)})`;
-  let img_url = track.album.images[2].url; //[2] gives the smallest img (64x64px)
+  let img_url = track.album.images[track.album.images.length - 1].url; //[2] gives the smallest img (64x64px)
   let track_html = `
 	<li class='search-result-container'>
 		<button class='search-result spotify-track-${track.id}' data-recs='${track.recs}'>
@@ -53,7 +53,7 @@ function showAlbumSearchResults(album, i, results) {
   let album_name = album.name;
   let artists = album.artists.map(artist => artist.name).join(', ');
   let release_year = album.release_date.slice(0,4);
-  let img_url = album.images[2].url;
+  let img_url = album.images[album.images.length - 1].url;
   let album_html = `
 	<li class='search-result-container'>
 		<button class='search-result spotify-album-${album.id}' data-recs='${album.recs}'>
@@ -70,7 +70,7 @@ function showAlbumSearchResults(album, i, results) {
 
 function showArtistSearchResults(artist, i, results) {
   // console.log(artist);
-  let img_url = artist.images[0].url;
+  let img_url = artist.images[artist.images.length - 1].url;
   let artist_name = artist.name;
   let artist_html = `
 	<li class='search-result-container'>

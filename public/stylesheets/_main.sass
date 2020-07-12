@@ -8,9 +8,18 @@
 	font: 1em vars.$body-font-stack
 	color: vars.$site-text-color
 
+	@include mixins.lg
+		flex-direction: row
+		display: flex
+
 	.sort-wrapper
 		height: 10%
 		width: 100%
+
+		@include mixins.lg
+			height: 100%
+			width: 25%
+			align-self: flex-start
 
 		.sort-container
 			height: auto
@@ -35,24 +44,36 @@
 					filter: invert(1)
 
 			.sort-container__body
-				display: flex
-				justify-content: space-around
+				display: grid
+				justify-items: center
+				grid-template-columns: repeat(3, 1fr)
 				position: relative
 				padding-bottom: 15px
+
+				@include mixins.lg
+					display: flex
+					flex-direction: column
 
 				.sort-category
 					height: 100%
 
+					@include mixins.lg
+						margin-bottom: 10px
+						margin-left: 10px
+
+
+				.sort-misc
+					align-self: center
 					.shuffle-button
-						@include mixins.button-reset
-						font-size: 1.2em
-						img
-							height: 32px
-							padding: 5px
-					label
-						display: block
-					input
-						display: inline-block
+						height: 32px
+						filter: invert(1)
+						opacity: 0.6
+						&:hover
+							opacity: 1
+				label
+					display: block
+				input
+					display: inline-block
 
 
 	.results-container
@@ -64,17 +85,19 @@
 			margin: 0 auto
 			list-style: none
 			overflow-y: auto
+
 			@include mixins.md
 				width: 70%
 			@include mixins.lg
-				width: 60%
+				width: 90%
+
+
 
 			.search-result
 				@include mixins.button-reset
 				@include mixins.search-result
 				padding-left: 0
 				grid-template-columns: vars.$num-recs-width vars.$search-result-img-width 1fr
-
 				&:hover
 					background-color: vars.$bg-search-result-hover
 
@@ -102,14 +125,14 @@
 				width: 90%
 				margin: 5px auto
 				border: 1px solid white
+				// display: none
 
 			.results-heading-container
+				font-size: 1.15em
 				padding: vars.$search-result-padding
 				display: grid
 				grid-template-columns: vars.$num-recs-width 1fr
 
-				// span
-					// text-align: center
 				.num-recs-heading
 					grid-column: 1 / 2
 				.results-heading

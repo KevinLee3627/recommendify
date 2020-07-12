@@ -49,3 +49,12 @@
 	display: grid
 	grid-template-rows: 1fr 1fr 1fr
 	grid-template-columns: vars.$search-result-img-width 1fr
+
+@mixin down-arrow
+		height: 64px
+		display: block
+		margin: 15px auto
+		filter: invert(1)
+		border-radius: 100%
+		border: 2px solid black
+		transition: background 200ms ease-in-out
